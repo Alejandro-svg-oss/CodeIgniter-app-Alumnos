@@ -69,12 +69,12 @@
                  <tbody> 
                      <?php if(!empty($alumnos)): ?> 
                          <?php foreach($alumnos as $a): ?> 
-                         <tr> 
-                             <td><?= $a->id ?></td> 
-                             <td><?= $a->nombre ?></td> 
-                             <td><?= $a->apellido ?></td> 
-                             <td><?= $a->telefono ?></td> 
-                             <td><?= $a->nombre_carrera ?></td> 
+                         <tr>
+                             <td><?= esc($a->id); ?></td>
+                             <td><?= esc($a->nombres); ?></td>
+                             <td><?= esc($a->apellidos); ?></td>
+                             <td><?= esc($a->telefono); ?></td>
+                             <td><?= esc($a->nombre_carrera ?? ''); ?></td>
                          </tr> 
                          <?php endforeach; ?> 
                      <?php else: ?> 
