@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AlumnoModel;
+use App\Models\Alumno_carreraModel; // <-- Importar el nuevo modelo
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class AlumnosController extends BaseController
@@ -29,7 +30,9 @@ class AlumnosController extends BaseController
 
     public function create()
     {
-        return view('alumnos_create');
+        $carreraModel = new Alumno_carreraModel();
+        $data['carreras'] = $carreraModel->obtenerCarreras();
+        return view('alumnos_create', $data);
     }
 
     public function store()
@@ -39,6 +42,7 @@ class AlumnosController extends BaseController
             'nombres'  => $this->request->getPost('nombres'),
             'apellidos'=> $this->request->getPost('apellidos'),
             'telefono' => $this->request->getPost('telefono'),
+            'codigo_carrera' => $this->request->getPost('codigo_carrera'), // <-- Añadir carrera
         ];
 
         try {
@@ -73,7 +77,11 @@ class AlumnosController extends BaseController
             return redirect()->to(base_url('alumnos'));
         }
 
-        return view('alumnos_edit', ['alumno' => $alumno]);
+        $carreraModel = new Alumno_carreraModel();
+        $data['carreras'] = $carreraModel->obtenerCarreras();
+        $data['alumno'] = $alumno;
+
+        return view('alumnos_edit', $data);
     }
 
     public function update($id)
@@ -83,6 +91,7 @@ class AlumnosController extends BaseController
             'nombres'  => $this->request->getPost('nombres'),
             'apellidos'=> $this->request->getPost('apellidos'),
             'telefono' => $this->request->getPost('telefono'),
+            'codigo_carrera' => $this->request->getPost('codigo_carrera'), // <-- Añadir carrera
         ];
 
         try {

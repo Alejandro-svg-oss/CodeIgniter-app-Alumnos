@@ -10,6 +10,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h4 mb-0">Alumnos</h1>
         <a class="btn btn-primary" href="<?= base_url('alumnos/create'); ?>">Agregar alumno</a>
+        <a class="btn btn-info" href="<?= base_url('alumnos_carrera'); ?>">Buscar por Carrera</a>
     </div>
 
     <?php if (session()->getFlashdata('error')): ?>

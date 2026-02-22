@@ -33,6 +33,20 @@
             <input class="form-control" type="text" name="telefono" id="telefono" value="<?= esc(old('telefono') ?? $alumno['telefono']); ?>" required>
         </div>
 
+        <div class="mb-3">
+            <label class="form-label" for="codigo_carrera">Carrera</label>
+            <select class="form-control" name="codigo_carrera" id="codigo_carrera" required>
+                <option value="">Seleccionar carrera</option>
+                <?php foreach ($carreras as $carrera): ?>
+                    <option
+                        value="<?= esc($carrera->codigo_carrera); ?>"
+                        <?= (old('codigo_carrera') ?? $alumno['codigo_carrera']) == $carrera->codigo_carrera ? 'selected' : ''; ?>>
+                        <?= esc($carrera->nombre_carrera); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
         <button class="btn btn-success" type="submit">Guardar</button>
         <a class="btn btn-secondary" href="<?= base_url('alumnos'); ?>">Volver a lista</a>
     </form>

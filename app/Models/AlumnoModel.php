@@ -16,6 +16,7 @@ class AlumnoModel extends Model
         'nombres',
         'apellidos',
         'telefono',
+        'codigo_carrera', // <-- Añadir
     ];
 
     protected $useTimestamps = false;
