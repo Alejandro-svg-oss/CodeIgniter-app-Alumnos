@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AlumnoModel;
-use App\Models\Alumno_carreraModel; // <-- Importar el nuevo modelo
+use App\Models\Alumno_carreraModel; 
 use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class AlumnosController extends BaseController
@@ -16,8 +16,12 @@ class AlumnosController extends BaseController
         try {
             $model = new AlumnoModel();
 
-            // Listado simple, DataTables se encargará del filtrado/orden en el cliente.
-            $alumnos = $model->orderBy('nombres', 'asc')->findAll();
+            // Listado con nombre de carrera (JOIN a tabla carrera)
+            $alumnos = $model
+                ->select('alumnos.*, carrera.nombre_carrera')
+                ->join('carrera', 'carrera.codigo_carrera = alumnos.codigo_carrera', 'left')
+                ->orderBy('nombres', 'asc')
+                ->findAll();
         } catch (DatabaseException $e) {
             $dbError = $e->getMessage();
         }
@@ -42,7 +46,7 @@ class AlumnosController extends BaseController
             'nombres'  => $this->request->getPost('nombres'),
             'apellidos'=> $this->request->getPost('apellidos'),
             'telefono' => $this->request->getPost('telefono'),
-            'codigo_carrera' => $this->request->getPost('codigo_carrera'), // <-- Añadir carrera
+            'codigo_carrera' => $this->request->getPost('codigo_carrera'), 
         ];
 
         try {

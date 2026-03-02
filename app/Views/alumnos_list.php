@@ -33,6 +33,7 @@
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>Teléfono</th>
+                <th>Carrera</th>
                 <th style="width: 140px;">Acciones</th>
             </tr>
         </thead>
@@ -44,6 +45,7 @@
                         <td><?= esc($alumno['nombres']); ?></td>
                         <td><?= esc($alumno['apellidos']); ?></td>
                         <td><?= esc($alumno['telefono']); ?></td>
+                        <td><?= esc($alumno['nombre_carrera'] ?? ''); ?></td>
                         <td>
                             <a class="btn btn-sm btn-outline-primary" href="<?= base_url('alumnos/edit/' . $alumno['id']); ?>">Editar</a>
                             <form action="<?= base_url('alumnos/delete/' . $alumno['id']); ?>" method="post" class="d-inline" onsubmit="return confirm('¿Está seguro que desea eliminar este registro?');">
@@ -54,7 +56,7 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="5">No hay alumnos cargados.</td>
+                    <td colspan="6">No hay alumnos cargados.</td>
                 </tr>
             <?php endif; ?>
         </tbody>
