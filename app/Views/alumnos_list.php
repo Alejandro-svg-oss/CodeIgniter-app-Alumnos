@@ -11,6 +11,9 @@
         <h1 class="h4 mb-0">Alumnos</h1>
         <a class="btn btn-primary" href="<?= base_url('alumnos/create'); ?>">Agregar alumno</a>
         <a class="btn btn-info" href="<?= base_url('alumnos_carrera'); ?>">Buscar por Carrera</a>
+        <a class="btn btn-secondary" href="<?= base_url('horarios/asignar'); ?>">Asignar Materias</a>
+        <a class="btn btn-warning" href="<?= base_url('horarios/por_docente'); ?>">Materias por Docente</a>
+        <a class="btn btn-success" href="<?= base_url('horarios/por_materia'); ?>">Alumnos por Materia</a>
     </div>
 
     <?php if (session()->getFlashdata('error')): ?>

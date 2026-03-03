@@ -17,3 +17,11 @@ $routes->post('alumnos/delete/(:num)', [AlumnosController::class, 'delete/$1']);
 // Rutas para busqueda de alumnos por carrera
 $routes->get('alumnos_carrera', 'Alumnosxcarrera::index');
 $routes->post('alumnos_carrera/filtrar', 'Alumnosxcarrera::filtrar');
+
+// Rutas para gestion de horarios
+$routes->get('horarios/asignar', 'HorariosController::asignar');
+$routes->post('horarios/guardar', 'HorariosController::guardarAsignacion');
+$routes->get('horarios/por_docente', 'HorariosController::porDocente');
+$routes->post('horarios/filtrar_docente', 'HorariosController::filtrarPorDocente');
+$routes->get('horarios/por_materia', 'HorariosController::porMateria');
+$routes->post('horarios/filtrar_materia', 'HorariosController::filtrarPorMateria');
