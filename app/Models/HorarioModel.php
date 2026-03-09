@@ -16,7 +16,7 @@ class HorarioModel extends Model
         'id_materia',
         'dia_1',
         'dia_2',
-        'hor-inicio',
+        'hora_inicio',
         'hora_fin',
     ];
 

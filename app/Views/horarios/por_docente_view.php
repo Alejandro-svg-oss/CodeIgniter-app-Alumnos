@@ -11,9 +11,16 @@
     <div class="card">
         <div class="card-header">
             <h2>Listado de Materias por Docente</h2>
-            <a href="<?= base_url('/alumnos') ?>" class="btn btn-primary">Volver al Listado Principal</a>
+            <a href="<?= base_url('/alumnos') ?>" class="btn btn-primary">Volver al Panel Principal</a>
         </div>
         <div class="card-body">
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="alert alert-success"><?= esc(session()->getFlashdata('success')); ?></div>
+            <?php endif; ?>
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger"><?= esc(session()->getFlashdata('error')); ?></div>
+            <?php endif; ?>
+
             <form action="<?= base_url('horarios/filtrar_docente') ?>" method="post" class="mb-4">
                 <?= csrf_field() ?>
                 <div class="form-row align-items-end">
@@ -47,6 +54,7 @@
                     <th>Día 2</th>
                     <th>Hora Inicio</th>
                     <th>Hora Fin</th>
+                    <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -56,13 +64,19 @@
                             <td><?= esc($horario['nombre_materia']) ?></td>
                             <td><?= esc($horario['dia_1']) ?></td>
                             <td><?= esc($horario['dia_2']) ?></td>
-                            <td><?= esc($horario['hor-inicio']) ?></td>
+                            <td><?= esc($horario['hora_inicio']) ?></td>
                             <td><?= esc($horario['hora_fin']) ?></td>
+                            <td>
+                                <a href="<?= base_url('horarios/editar/' . $horario['id']); ?>" class="btn btn-sm btn-outline-primary">Editar</a>
+                                <form action="<?= base_url('horarios/eliminar/' . $horario['id']); ?>" method="post" class="d-inline" onsubmit="return confirm('¿Eliminar esta asignación?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="5" class="text-center">No hay horarios asignados para el docente seleccionado o no se ha seleccionado un docente.</td>
+                        <td colspan="6" class="text-center">No hay horarios asignados para el docente seleccionado o no se ha seleccionado un docente.</td>
                     </tr>
                 <?php endif; ?>
                 </tbody>
