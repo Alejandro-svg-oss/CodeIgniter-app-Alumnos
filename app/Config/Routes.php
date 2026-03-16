@@ -44,3 +44,13 @@ $routes->post('horarios/filtrar_docente', 'HorariosController::filtrarPorDocente
 $routes->get('horarios/editar/(:num)', 'HorariosController::editar/$1');
 $routes->post('horarios/actualizar/(:num)', 'HorariosController::actualizar/$1');
 $routes->post('horarios/eliminar/(:num)', 'HorariosController::eliminar/$1');
+
+// Inscripciones de materias por alumno
+$routes->get('inscripciones', 'InscripcionesController::index');
+$routes->post('inscripciones/guardar', 'InscripcionesController::guardar');
+$routes->get('inscripciones/materias_alumno/(:num)', 'InscripcionesController::materiasPorAlumno/$1');
+
+// Notas por materia
+$routes->get('notas', 'NotasController::index');
+$routes->get('notas/por_materia/(:num)', 'NotasController::porMateria/$1');
+$routes->post('notas/guardar', 'NotasController::guardar');

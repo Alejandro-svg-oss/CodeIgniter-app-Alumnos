@@ -15,6 +15,8 @@
         <a class="btn btn-warning" href="<?= base_url('materias'); ?>">Gestionar Materias</a>
         <a class="btn btn-success" href="<?= base_url('horarios/asignar'); ?>">Asignar Materias a Docentes</a>
         <a class="btn btn-outline-dark" href="<?= base_url('horarios/por_docente'); ?>">Ver Materias por Docente</a>
+        <a class="btn btn-outline-primary" href="<?= base_url('inscripciones'); ?>">Inscribir materias (alumno)</a>
+        <a class="btn btn-outline-success" href="<?= base_url('notas'); ?>">Registrar notas (materia)</a>
     </div>
 
     <?php if (session()->getFlashdata('error')): ?>

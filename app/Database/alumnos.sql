@@ -1,9 +1,11 @@
 CREATE DATABASE IF NOT EXISTS ci4 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE ci4;
 
-CREATE USER IF NOT EXISTS 'ci4'@'localhost' IDENTIFIED BY 'ci4';
-GRANT ALL PRIVILEGES ON ci4.* TO 'ci4'@'localhost';
-FLUSH PRIVILEGES;
+-- Las siguientes sentencias requieren privilegios de administrador.
+-- Si ya tienes creado el usuario y permisos, se pueden omitir.
+-- CREATE USER IF NOT EXISTS 'ci4'@'localhost' IDENTIFIED BY 'ci4';
+-- GRANT ALL PRIVILEGES ON ci4.* TO 'ci4'@'localhost';
+-- FLUSH PRIVILEGES;
 
 DROP TABLE IF EXISTS matricula;
 DROP TABLE IF EXISTS horarios;
@@ -26,13 +28,15 @@ CREATE TABLE docentes (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nombres   VARCHAR(100) NOT NULL,
   apellidos VARCHAR(100) NOT NULL,
-  email     VARCHAR(150) NOT NULL
+  email     VARCHAR(150) NOT NULL,
+  UNIQUE KEY uq_docentes_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE materias (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   nombre_materia VARCHAR(150) NOT NULL,
-  descripcion    TEXT NULL
+  descripcion    TEXT NULL,
+  UNIQUE KEY uq_materias_nombre (nombre_materia)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE alumnos (
@@ -65,6 +69,14 @@ CREATE TABLE matricula (
   id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   id_alumno  INT UNSIGNED NOT NULL,
   id_materia INT UNSIGNED NOT NULL,
+  lab1 DECIMAL(5,2) NULL,
+  parcial1 DECIMAL(5,2) NULL,
+  lab2 DECIMAL(5,2) NULL,
+  parcial2 DECIMAL(5,2) NULL,
+  lab3 DECIMAL(5,2) NULL,
+  parcial3 DECIMAL(5,2) NULL,
+  lab4 DECIMAL(5,2) NULL,
+  parcial4 DECIMAL(5,2) NULL,
   UNIQUE KEY uq_matricula_alumno_materia (id_alumno, id_materia),
   KEY fk_matricula_alumno (id_alumno),
   KEY fk_matricula_materia (id_materia),

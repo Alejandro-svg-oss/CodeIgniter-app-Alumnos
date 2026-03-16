@@ -50,8 +50,7 @@
                 <thead>
                 <tr>
                     <th>Materia</th>
-                    <th>Día 1</th>
-                    <th>Día 2</th>
+                    <th>Día</th>
                     <th>Hora Inicio</th>
                     <th>Hora Fin</th>
                     <th>Acciones</th>
@@ -63,7 +62,6 @@
                         <tr>
                             <td><?= esc($horario['nombre_materia']) ?></td>
                             <td><?= esc($horario['dia_1']) ?></td>
-                            <td><?= esc($horario['dia_2']) ?></td>
                             <td><?= esc($horario['hora_inicio']) ?></td>
                             <td><?= esc($horario['hora_fin']) ?></td>
                             <td>
@@ -76,7 +74,7 @@
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="6" class="text-center">No hay horarios asignados para el docente seleccionado o no se ha seleccionado un docente.</td>
+                        <td colspan="5" class="text-center">No hay horarios asignados para el docente seleccionado o no se ha seleccionado un docente.</td>
                     </tr>
                 <?php endif; ?>
                 </tbody>

@@ -9,9 +9,7 @@ use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class HorariosController extends BaseController
 {
-    /**
-     * Muestra el formulario para asignar una materia a un docente.
-     */
+  
     public function asignar()
     {
         $docenteModel = new DocenteModel();
@@ -28,30 +26,57 @@ class HorariosController extends BaseController
         return view('horarios/asignar_view', $data);
     }
 
-    /**
-     * Guarda la nueva asignación de horario.
-     */
+
     public function guardarAsignacion()
     {
-        $horaInicio = $this->request->getPost('hora_inicio');
-        $horaFin    = $this->request->getPost('hora_fin');
+        $idDocente = $this->request->getPost('id_docente');
+        $idMateria = $this->request->getPost('id_materia');
 
-        if ($horaInicio !== null && $horaFin !== null && $horaFin <= $horaInicio) {
-            return redirect()->back()->withInput()->with('error', 'La hora de fin debe ser posterior a la hora de inicio. (Use 12:00 para mediodía; 00:00 es medianoche.)');
+        $dia1       = $this->request->getPost('dia_1');
+        $horaInicio1 = $this->request->getPost('hora_inicio_1');
+        $horaFin1    = $this->request->getPost('hora_fin_1');
+
+        $dia2        = $this->request->getPost('dia_2');
+        $horaInicio2 = $this->request->getPost('hora_inicio_2');
+        $horaFin2    = $this->request->getPost('hora_fin_2');
+
+        if ($horaInicio1 !== null && $horaFin1 !== null && $horaFin1 <= $horaInicio1) {
+            return redirect()->back()->withInput()->with('error', 'En el Día 1, la hora de fin debe ser posterior a la hora de inicio. (Use 12:00 para mediodía; 00:00 es medianoche.)');
         }
 
-        $data = [
-            'id_docente'  => $this->request->getPost('id_docente'),
-            'id_materia'  => $this->request->getPost('id_materia'),
-            'dia_1'       => $this->request->getPost('dia_1'),
-            'dia_2'       => $this->request->getPost('dia_2'),
-            'hora_inicio' => $horaInicio,
-            'hora_fin'    => $horaFin,
-        ];
+        if (!empty($dia2)) {
+            if ($horaInicio2 === null || $horaFin2 === null) {
+                return redirect()->back()->withInput()->with('error', 'Si selecciona un Día 2 debe indicar hora de inicio y fin para ese día.');
+            }
+            if ($horaFin2 <= $horaInicio2) {
+                return redirect()->back()->withInput()->with('error', 'En el Día 2, la hora de fin debe ser posterior a la hora de inicio. (Use 12:00 para mediodía; 00:00 es medianoche.)');
+            }
+        }
 
         try {
             $horarioModel = new HorarioModel();
-            $horarioModel->insert($data);
+
+            // Día 1 (obligatorio)
+            $horarioModel->insert([
+                'id_docente'  => $idDocente,
+                'id_materia'  => $idMateria,
+                'dia_1'       => $dia1,
+                'dia_2'       => null,
+                'hora_inicio' => $horaInicio1,
+                'hora_fin'    => $horaFin1,
+            ]);
+
+            // Día 2 (opcional, independiente)
+            if (!empty($dia2)) {
+                $horarioModel->insert([
+                    'id_docente'  => $idDocente,
+                    'id_materia'  => $idMateria,
+                    'dia_1'       => $dia2,
+                    'dia_2'       => null,
+                    'hora_inicio' => $horaInicio2,
+                    'hora_fin'    => $horaFin2,
+                ]);
+            }
         } catch (DatabaseException $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
         }
@@ -59,9 +84,7 @@ class HorariosController extends BaseController
         return redirect()->to(base_url('horarios/por_docente'))->with('success', 'Asignación guardada correctamente.');
     }
 
-    /**
-     * Muestra la página para filtrar materias por docente.
-     */
+
     public function porDocente()
     {
         $docenteModel = new DocenteModel();
@@ -74,9 +97,7 @@ class HorariosController extends BaseController
         return view('horarios/por_docente_view', $data);
     }
 
-    /**
-     * Muestra el formulario para editar una asignación existente.
-     */
+ 
     public function editar($id)
     {
         $horarioModel = new HorarioModel();
@@ -97,9 +118,7 @@ class HorariosController extends BaseController
         return view('horarios/editar_view', $data);
     }
 
-    /**
-     * Actualiza una asignación existente.
-     */
+
     public function actualizar($id)
     {
         $horaInicio = $this->request->getPost('hora_inicio');
@@ -128,9 +147,7 @@ class HorariosController extends BaseController
         return redirect()->to(base_url('horarios/por_docente'))->with('success', 'Asignación actualizada correctamente.');
     }
 
-    /**
-     * Elimina una asignación de horario.
-     */
+
     public function eliminar($id)
     {
         try {
@@ -143,9 +160,7 @@ class HorariosController extends BaseController
         return redirect()->to(base_url('horarios/por_docente'))->with('success', 'Asignación eliminada correctamente.');
     }
 
-    /**
-     * Filtra y muestra los horarios de un docente específico.
-     */
+
     public function filtrarPorDocente()
     {
         $id_docente = $this->request->getPost('id_docente');
@@ -162,9 +177,7 @@ class HorariosController extends BaseController
         return view('horarios/por_docente_view', $data);
     }
 
-    /**
-     * Muestra la página para filtrar alumnos por materia.
-     */
+
     public function porMateria()
     {
         $materiaModel = new MateriaModel();
@@ -177,9 +190,7 @@ class HorariosController extends BaseController
         return view('horarios/por_materia_view', $data);
     }
 
-    /**
-     * Filtra y muestra los alumnos de una materia específica.
-     */
+ 
     public function filtrarPorMateria()
     {
         $id_materia = $this->request->getPost('id_materia');

@@ -30,6 +30,15 @@ class DocentesController extends BaseController
 
         try {
             $model = new DocenteModel();
+            // Validar email duplicado
+            $existente = $model->where('email', $data['email'])->first();
+            if ($existente !== null) {
+                return redirect()
+                    ->to(base_url('docentes/create'))
+                    ->withInput()
+                    ->with('error', 'Ya existe un docente con ese email.');
+            }
+
             $model->insert($data);
         } catch (DatabaseException $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
@@ -60,6 +69,19 @@ class DocentesController extends BaseController
 
         try {
             $model = new DocenteModel();
+            // Validar duplicado de email en otro registro
+            $existente = $model
+                ->where('email', $data['email'])
+                ->where('id !=', $id)
+                ->first();
+
+            if ($existente !== null) {
+                return redirect()
+                    ->to(base_url('docentes/edit/' . $id))
+                    ->withInput()
+                    ->with('error', 'Ya existe otro docente con ese email.');
+            }
+
             $model->update($id, $data);
         } catch (DatabaseException $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());

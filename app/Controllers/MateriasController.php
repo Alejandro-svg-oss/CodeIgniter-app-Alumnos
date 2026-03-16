@@ -29,6 +29,15 @@ class MateriasController extends BaseController
 
         try {
             $model = new MateriaModel();
+            // Validar duplicado por nombre
+            $existente = $model->where('nombre_materia', $data['nombre_materia'])->first();
+            if ($existente !== null) {
+                return redirect()
+                    ->to(base_url('materias/create'))
+                    ->withInput()
+                    ->with('error', 'Ya existe una materia con ese nombre.');
+            }
+
             $model->insert($data);
         } catch (DatabaseException $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
@@ -58,6 +67,19 @@ class MateriasController extends BaseController
 
         try {
             $model = new MateriaModel();
+            // Validar duplicado de nombre en otro registro
+            $existente = $model
+                ->where('nombre_materia', $data['nombre_materia'])
+                ->where('id !=', $id)
+                ->first();
+
+            if ($existente !== null) {
+                return redirect()
+                    ->to(base_url('materias/edit/' . $id))
+                    ->withInput()
+                    ->with('error', 'Ya existe otra materia con ese nombre.');
+            }
+
             $model->update($id, $data);
         } catch (DatabaseException $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
