@@ -20,10 +20,7 @@ class HorarioModel extends Model
         'hora_fin',
     ];
 
-    /**
-     * Obtiene los horarios asignados a un docente específico, 
-     * incluyendo los nombres del docente y la materia.
-     */
+   
     public function getHorariosPorDocente($id_docente)
     {
         return $this->select('horarios.*, materias.nombre_materia, docentes.nombres, docentes.apellidos')
@@ -33,13 +30,10 @@ class HorarioModel extends Model
             ->findAll();
     }
 
-    /**
-     * Obtiene los alumnos inscritos en una materia específica.
-     * Asume la existencia de una tabla 'matricula'.
-     */
+
     public function getAlumnosPorMateria($id_materia)
     {
-        // Esta consulta asume una tabla `matricula` con `id_alumno` y `id_materia`
+       
         return $this->db->table('matricula')
             ->select('alumnos.codigo, alumnos.nombres, alumnos.apellidos')
             ->join('alumnos', 'alumnos.id = matricula.id_alumno')
